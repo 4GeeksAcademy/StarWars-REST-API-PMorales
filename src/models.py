@@ -89,7 +89,7 @@ class PlanetasFavoritos(db.Model):
     __tablename__ = 'planetas_favoritos'
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey("usuario.id"))
-    planeta_id = db.Column(db.Integer,db.ForeignKey("planeta.id"))
+    planeta_id = db.Column(db.Integer,db.ForeignKey("planetas.id"))
 
     def __repr__(self):
         return "<PlanetasFavoritos %r >" % self.id
