@@ -11,6 +11,7 @@ class Usuario(db.Model):
     apellido = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(250), nullable=False)
     favoritos_personajes = db.relationship('PersonajesFavoritos', backref='Usuarios', lazy=True)
+    favoritos_personajes = db.relationship('PlanetasFavoritos', backref='Usuarios', lazy=True)
 
     def __repr__(self):
         return "<Usuario %r >" % self.nombre
@@ -81,6 +82,21 @@ class Planetas(db.Model):
             "poblacion": self.poblacion,
             "diametro": self.diametro,
             "temperartura": self.temperatura
-
             # do not serialize the password, its a security breach
+        }
+
+class PlanetasFavoritos(db.Model):
+    __tablename__ = 'planetas_favoritos'
+    id = db.Column(db.Integer, primary_key=True)
+    usuario_id = db.Column(db.Integer, db.ForeignKey("usuario.id"))
+    planeta_id = db.Column(db.Integer,db.ForeignKey("planeta.id"))
+
+    def __repr__(self):
+        return "<PlanetasFavoritos %r >" % self.id
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "usuario_id": self.usuario_id,
+            "planeta_id": self.planeta_id
         }
