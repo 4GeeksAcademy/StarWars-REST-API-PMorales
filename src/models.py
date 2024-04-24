@@ -38,7 +38,10 @@ class Personajes(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "nombre": self.nombre
+            "nombre": self.nombre,
+            "raza": self.raza,
+            "altura": self.altura,
+            "peso": self.peso
         }
 
 class PersonajesFavoritos(db.Model):
@@ -64,9 +67,9 @@ class Planetas(db.Model):
     # Notice that each column is also a normal Python instance attribute.
     id = db.Column(db.Integer, primary_key=True)
     nombre = db.Column(db.String(250))
-    raza = db.Column(db.String(250))
-    altura = db.Column(db.String(250))
-    peso = db.Column(db.String(250), nullable=False)
+    poblacion = db.Column(db.String(250))
+    diametro = db.Column(db.String(250))
+    temperatura = db.Column(db.String(250), nullable=False)
 
     def __repr__(self):
         return '<Planetas %r>' % self.nombre
@@ -75,5 +78,9 @@ class Planetas(db.Model):
         return {
             "id": self.id,
             "nombre": self.nombre,
+            "poblacion": self.poblacion,
+            "diametro": self.diametro,
+            "temperartura": self.temperatura
+
             # do not serialize the password, its a security breach
         }
