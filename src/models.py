@@ -10,8 +10,8 @@ class Usuario(db.Model):
     nombre = db.Column(db.String(250), nullable=False)
     apellido = db.Column(db.String(250), nullable=False)
     email = db.Column(db.String(250), nullable=False)
-    favoritos_personajes = db.relationship('PersonajesFavoritos', backref='Usuarios', lazy=True)
-    favoritos_personajes = db.relationship('PlanetasFavoritos', backref='Usuarios', lazy=True)
+    favoritos_personajes = db.relationship('PersonajesFavoritos', backref='usuario', lazy=True)
+    favoritos_personajes = db.relationship('PlanetasFavoritos', backref='usuario', lazy=True)
 
     def __repr__(self):
         return "<Usuario %r >" % self.nombre
@@ -19,7 +19,9 @@ class Usuario(db.Model):
     def serialize(self):
         return {
             "id": self.id,
-            "email": self.email
+            "nombre": self.nombre,
+            "email": self.email,
+            "apellido": self.apellido
         }
 
 class Personajes(db.Model):
@@ -31,7 +33,7 @@ class Personajes(db.Model):
     raza = db.Column(db.String(250))
     altura = db.Column(db.String(250))
     peso = db.Column(db.String(250), nullable=False)
-    favoritos_personajes = db.relationship('PersonajesFavoritos', backref='Personaje', lazy=True)
+    favoritos_personajes = db.relationship('PersonajesFavoritos', backref='personajes', lazy=True)
 
     def __repr__(self):
         return "<Personajes %r >" % self.nombre
@@ -46,7 +48,7 @@ class Personajes(db.Model):
         }
 
 class PersonajesFavoritos(db.Model):
-    __tablename__ = 'personajes_favoritos'
+    __tablename__ = 'personajesfavoritos'
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey("usuario.id"))
     personaje_id = db.Column(db.Integer,db.ForeignKey("personajes.id"))
@@ -86,7 +88,7 @@ class Planetas(db.Model):
         }
 
 class PlanetasFavoritos(db.Model):
-    __tablename__ = 'planetas_favoritos'
+    __tablename__ = 'planetasfavoritos'
     id = db.Column(db.Integer, primary_key=True)
     usuario_id = db.Column(db.Integer, db.ForeignKey("usuario.id"))
     planeta_id = db.Column(db.Integer,db.ForeignKey("planetas.id"))
